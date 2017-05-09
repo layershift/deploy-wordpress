@@ -1,0 +1,77 @@
+{
+   "jpsType": "update",
+   "jpsVersion": "0.5",
+   "application": {
+      "id": "wordpress",
+      "name": "Deploy default WordPress application",
+      "version": "1",
+      "type": "php",
+      "categories": [
+         "apps/blogs"
+      ],
+      "targetNodes": {
+         "nodesType": [
+            "apache2",
+            "nginxphp"
+         ]
+      },
+      "homepage": "http://www.wordpress.org/",
+      "logo": "https://download.jelastic.com/public.php?service=files&t=3da2215839f82aa50d3d961271cd1cb9&download",
+      "description": {
+         "en": "Install a new WordPress application without any other problems"
+      },
+      "settings": {
+         "fields": [
+            {
+               "type": "list",
+               "caption": "Select a version",
+               "values": {
+                  "value": "4.7.4",
+                  "value1": "4.7.3",
+                  "value2": "4.7.2"
+               },
+               "default": "4.7.4"
+            }
+         ]
+      },
+      "onInstall": {
+         "call": [
+            {
+               "installApplication": {}
+            }
+         ]
+      },
+      "onUninstall": {
+         "call": "removeApplication"
+      },
+      "procedures": [
+         {
+            "id": "installApplication",
+            "onCall": [
+               {
+                 
+                  "executeShellCommands": {
+                     "nodeMission": "cp",
+                     "user": "root",
+                     "commands": [
+                        "curl -o /usr/local/src/ https://wordpress.org/wordpress-4.7.4.tar.gz",
+                        "tar -zxvf /usr/local/src/wordpress-4.7.4.tar.gz"
+                     ]
+                  }
+               }
+            ]
+         },
+         {
+            "id": "removeApplication",
+            "onCall": [
+               {}
+            ]
+         }
+      ],
+      "success": {
+         "text": {
+            "en": "WordPress was installed with success."
+         }
+      }
+   }
+}
